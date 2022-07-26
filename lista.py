@@ -1,6 +1,6 @@
 
 def criterio(dato, campo=None):
-    dic = {}
+    dic = []
     if(hasattr(dato, '__dict__')):
         dic = dato.__dict__
     if(campo is None or campo not in dic):
@@ -52,6 +52,13 @@ class Lista():
             print(aux.info)
             aux = aux.sig
     
+    def barrido_entrenador_mas_tres(self):
+        aux = self.__inicio
+        while(aux is not None):
+            if(aux.info.torneos_ganados > 3):
+                print(aux.info)
+            aux = aux.sig
+    
     def barrido_lista_lista(self):
         aux = self.__inicio
         while(aux is not None):
@@ -65,24 +72,10 @@ class Lista():
 
             aux = aux.sig
     
-    def obtener_elemento (self, pos):
-        """Devuelve el elemento que se encuentra en una posicion dada."""
-        if (pos >= 0):
-            return self.name[pos]
-        else:
-            return None
-
     def barrido_armadura_traje(self):
         aux = self.__inicio
         while(aux is not None):
             if('traje' in aux.info.bio or 'armadura' in aux.info.bio):
-                print(aux.info)
-            aux = aux.sig
-
-    def barrido_ultima_descubrimiento(self):
-        aux = self.__inicio
-        while(aux is not None):
-            if('named_by' in aux.info or 'Coria & Salgado, 1995' in aux.info):
                 print(aux.info)
             aux = aux.sig
 
@@ -99,11 +92,36 @@ class Lista():
             if('yoda' in aux.info.maestro or 'luke skywalker' in aux.info.maestro):
                 print(aux.info)
             aux = aux.sig
+    
+    def barrido_raptors_carno(self):
+        aux = self.__inicio
+        while(aux is not None):
+            if('Raptors' in aux.info.nombre or 'Carnotaurus' in aux.info.nombre):
+                print(aux.info)
+            if('Compsognathus' in aux.info.nombre):
+                print()
+                print('Codigo donde puedes encontrar Compsognathus: ', aux.info.zona)
+            aux = aux.sig
+    
+    def barrido_tyrano_spino_giga(self):#Tyrannosaurus Rex, Spinosaurus, Giganotosaurus 
+        aux = self.__inicio #nivel ´critical’ o ‘high’.
+        while(aux is not None):
+            if(('Tyrannosaurus Rex' in aux.info.nombre or 'Spinosaurus' in aux.info.nombre or 'Giganotosaurus' in aux.info.nombre) and ('critical' in aux.info.nivel_alerta or 'high' in aux.info.nivel_alerta)):
+                print(aux.info)
+            aux = aux.sig
 
     def barrido_comienza_con(self, iniciales=[]):
         aux = self.__inicio
         while(aux is not None):
             if(aux.info.nombre[0] in iniciales):
+                print(aux.info)
+            aux = aux.sig
+
+    def barrido_porcentaje_victorias(self):
+        aux = self.__inicio
+        while(aux is not None):
+            total = aux.info.batallas_ganadas + aux.info.batallas_perdidas
+            if(aux.info.batallas_ganadas / total >= 0.79):
                 print(aux.info)
             aux = aux.sig
 
@@ -132,6 +150,8 @@ class Lista():
             if(actual is not None):
                 dato = actual.info
                 anterior.sig = actual.sig
+        if dato:
+            self.__tamanio -= 1 
 
         return dato
 
@@ -156,7 +176,16 @@ class Lista():
             aux = aux.sig
 
         return marvel, dc
-        
+    
+    def mayor_de_lista(self, campo):
+        mayor = self.__inicio
+        aux = self.__inicio
+        while(aux is not None):
+            if(criterio(aux.info, campo) > criterio(mayor.info, campo)):
+                mayor = aux
+                break
+            aux = aux.sig
+        return mayor
 
 # cadena = 'hola'
 # cadena.startswith('C')
@@ -235,40 +264,40 @@ class Lista():
 #     while(aux is not None):
 #         aux = l.eliminar(vocal)
 
-class Weather():
+# class Weather():
 
-    def __init__(self, id, temp, hum, pres):
-        self.id = id
-        self.temp = temp
-        self.hum = hum
-        self.pres = pres
+#     def __init__(self, id, temp, hum, pres):
+#         self.id = id
+#         self.temp = temp
+#         self.hum = hum
+#         self.pres = pres
 
-    def __str__(self):
-        return f'{self.id} - {self.temp} - {self.hum} - {self.pres}'
-
-
-lista_estaciones = Lista()
-
-lista_estaciones.insertar('A')
-lista_estaciones.insertar('G')
-lista_estaciones.insertar('L')
-lista_estaciones.insertar('O')
-lista_estaciones.insertar('Y')
+#     def __str__(self):
+#         return f'{self.id} - {self.temp} - {self.hum} - {self.pres}'
 
 
-# lista_estaciones.barrido()
+# lista_estaciones = Lista()
 
-clima = Weather(24, 15, 80, 1004)
-clima2 = Weather(12, 20, 80, 1024)
-estacion = lista_estaciones.busqueda('L')
-estacion.sublista.insertar(clima, 'id')
-estacion.sublista.insertar(clima2, 'id')
+# lista_estaciones.insertar('A')
+# lista_estaciones.insertar('G')
+# lista_estaciones.insertar('L')
+# lista_estaciones.insertar('O')
+# lista_estaciones.insertar('Y')
 
-lista_estaciones.barrido_lista_lista()
 
-clima_buscado = estacion.sublista.busqueda(12, 'id')
-if(clima_buscado):
-    clima_buscado.info.hum = 90
+# # lista_estaciones.barrido()
 
-print()
-lista_estaciones.barrido_lista_lista()
+# clima = Weather(24, 15, 80, 1004)
+# clima2 = Weather(12, 20, 80, 1024)
+# estacion = lista_estaciones.busqueda('L')
+# estacion.sublista.insertar(clima, 'id')
+# estacion.sublista.insertar(clima2, 'id')
+
+# lista_estaciones.barrido_lista_lista()
+
+# clima_buscado = estacion.sublista.busqueda(12, 'id')
+# if(clima_buscado):
+#     clima_buscado.info.hum = 90
+
+# print()
+# lista_estaciones.barrido_lista_lista()
